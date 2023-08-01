@@ -7,5 +7,4 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Repository
 public interface EmployeeRepo extends JpaRepository<Employee,Long> {
-    boolean existsByEmail(String email);
 }

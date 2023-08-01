@@ -3,6 +3,7 @@ package com.bridgelabz.SpringBoot_Employee.controller;
 import com.bridgelabz.SpringBoot_Employee.dto.EmployeeDTO;
 import com.bridgelabz.SpringBoot_Employee.dto.ResponseDTO;
 import com.bridgelabz.SpringBoot_Employee.model.Employee;
+import com.bridgelabz.SpringBoot_Employee.model.File;
 import com.bridgelabz.SpringBoot_Employee.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -23,39 +24,39 @@ public class EmployeeController {
 
 
     @PostMapping(value = "/addformdata", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseDTO> addEmployee(@ModelAttribute  EmployeeDTO employeeDTO) throws IllegalArgumentException {
-        Employee addedEmployee = employeeService.addEmployee(employeeDTO);
+    public ResponseEntity<ResponseDTO> addEmployee(@RequestParam MultipartFile file) throws IllegalArgumentException, IOException {
+        File addedFile = employeeService.addEmployee(file);
         log.info("form Data added Successfully");
-        ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully", addedEmployee);
+        ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully", addedFile);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
-//
-@PostMapping("/addjson")
+    @PostMapping("/addjson")
 public ResponseEntity<ResponseDTO> addEmployee7(@Valid @RequestBody EmployeeDTO employeeDTO) {
-    // Log that the data is added successfully.
-    log.info("Data added Successfully");
+        // Log that the data is added successfully.
+        log.info("Data added Successfully");
 
-    // Create a ResponseDTO with the success message and the data returned by the contactService.
-    ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully", employeeService.addEmployee(employeeDTO));
+        // Create a ResponseDTO with the success message and the data returned by the contactService.
+        ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully", employeeService.addEmployee1(employeeDTO));
 
-    // Return the ResponseDTO with HttpStatus.CREATED (201 - Created) status code.
-    return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
-}
+        // Return the ResponseDTO with HttpStatus.CREATED (201 - Created) status code.
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
 
 
+    }
     @PostMapping("/addxml")
     public ResponseEntity<ResponseDTO> addEmployee3(@Valid @RequestBody EmployeeDTO employeeDTO) {
         log.info("Data added Successfully");
-        ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully in xml format",employeeService.addEmployee(employeeDTO));
+        ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully in xml format",employeeService.addEmployee1(employeeDTO));
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
-    @PostMapping(value = "/addfiledata", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseDTO> addEmployee4(@ModelAttribute  EmployeeDTO employeeDTO) throws IllegalArgumentException {
-        Employee addedEmployee = employeeService.addEmployee(employeeDTO);
-        log.info("Data added Successfully");
-        ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully", addedEmployee);
-        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
-    }
+//    @PostMapping(value = "/addfiledata", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<ResponseDTO> addEmployee4(@ModelAttribute  EmployeeDTO employeeDTO) throws IllegalArgumentException {
+//        Employee addedEmployee = employeeService.addEmployee(employeeDTO);
+//        log.info("Data added Successfully");
+//        ResponseDTO responseDTO = new ResponseDTO("Data Added Successfully", addedEmployee);
+//        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+//    }
 }
+
 

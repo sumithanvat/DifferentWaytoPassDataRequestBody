@@ -8,15 +8,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@ToString
 public class EmployeeDTO {
-    //@Pattern(regexp = "^[A-Z]{1}[a-z]{2,}$")
+    @Pattern(regexp = "^[A-Z]{1}[a-z]{2,}$")
     public String name;
     public int age;
- //   @NotNull
+    @NotNull
     public double salary;
     public String email;
 
